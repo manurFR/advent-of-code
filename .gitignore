@@ -1,2 +1,5 @@
 /.idea/
 /venv/
+
+*.code-workspace
+__pycache__

@@ -31,3 +31,24 @@ def inputparts(day):
     if current:
         parts.append(current)
     return parts
+
+
+def columnarinput(day, convert_rows=None):
+    data = []
+    for line in readinput(day):
+        items = line.split()
+        key = items[0].replace(':', '')
+        for idx, col in enumerate(items[1:]):
+            if convert_rows and key in convert_rows:
+                col = convert_rows[key](col)
+            if len(data) <= idx:
+                data.append({key: col})
+            else:
+                data[idx].update({key: col})
+    return data
+
+
+def str2intlist(intstr, sep=None):
+    """Convert a string of numbers separated by sep (defaut: whitespaces) 
+    to a list of integers"""
+    return list(map(int, intstr.split(sep)))

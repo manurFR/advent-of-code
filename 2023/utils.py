@@ -5,6 +5,12 @@ from pathlib import Path
 AOC2023 = Path(os.path.dirname(os.path.abspath(__file__)))
 INPUTS_DIR = AOC2023 / "inputs"
 
+# increments in (y, x) when going to each direction
+NORTH = (-1, 0)
+SOUTH = (1, 0)
+WEST = (0, -1)
+EAST = (0, 1)
+
 def readinput(day):
     """Returns a list, with just each line as an item"""
     with (INPUTS_DIR / day).open("r") as f:

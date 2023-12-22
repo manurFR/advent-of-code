@@ -129,7 +129,7 @@ loop.append(start)
 
 poly = Polygon(loop)
 
-start = time.time()
+starttime = time.time()
 nb_enclosed = 0
 for y in range(len(data)):
     for x in range(len(data[0])):
@@ -137,10 +137,10 @@ for y in range(len(data)):
         if poly.contains(p):
             display[y][x] = 'I'
             nb_enclosed += 1
-end = time.time()
+endtime = time.time()
 
 for row in display:
     print(''.join(row))
 print()
 
-print(f"Part two: {nb_enclosed} ({end - start} seconds)")
+print(f"Part two: {nb_enclosed} ({endtime - starttime} seconds)")

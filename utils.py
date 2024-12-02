@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 
 # increments in (y, x) when going to each direction
@@ -10,20 +10,30 @@ WEST = (0, -1)
 EAST = (0, 1)
 
 
+def convert(listval: list, conv: Optional[type]) -> list:
+    """Convert array to 'conv' type, but handle None (no conversion) gracefully."""
+    if conv is None:
+        return listval
+    else:
+        return list(map(conv, listval))
+
+
 def inputdir(year: str) -> Path:
     return Path(os.path.dirname(os.path.abspath(__file__))) / year / "inputs"
 
 
-def readinput(year: int, day: str) -> list[str]:
+def readinput(year: int, day: str, conv: Optional[type]=None) -> list[str]:
     """Returns a list, with just each line as an item"""
     with (inputdir(str(year)) / day).open("r") as f:
-        return [line.strip() for line in f.readlines()]
+        data = convert([line.strip() for line in f.readlines()], conv)
+    print(f"...Parsed {len(data)} lines from input file {str(year)}/{day}")
+    return data
 
 
-def splittedinput(year: int, day: str, sep: Optional[str]=None) -> list[list[str]]:
+def splittedinput(year: int, day: str, sep: Optional[str]=None, conv: Optional[type]=None) -> list[list[str]]:
     """Each item is a line but as a list of the elements splitted around sep
     (if sep=None, splitted around clusters of whitespaces)"""
-    return [line.split(sep) for line in readinput(year, day)]
+    return [convert(line.split(sep), conv) for line in readinput(year, day)]
 
 
 def inputparts(year: int, day: str) -> list[list[str]]:

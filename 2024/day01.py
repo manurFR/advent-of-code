@@ -1,6 +1,4 @@
 from collections import Counter
-import os
-import pytest
 
 from utils import splittedinput
 

@@ -13,7 +13,6 @@ TESTDATA = [line.split() for line in """
 3   3
 """.strip().split("\n")]
 
-
 def parselists(data):
     left, right = zip(*data)
     left = sorted(int(n) for n in left)
@@ -43,8 +42,6 @@ def test_part2():
 
 
 if __name__ == "__main__":
-    pytest.main(["-q", "2024/" + os.path.basename(os.path.abspath(__file__))])
-
     data = splittedinput(2024, "01")
     print(f"Part 1: {part1(data)}")
     print(f"Part 2: {part2(data)}")

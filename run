@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Usage: ./run [2024[/day01.py]]
+
+if [[ $# -gt 0 ]]; then
+    FILE=$1
+else
+    # find the last available year
+    YEAR=$(find . -mindepth 1 -maxdepth 1 -type d  \( ! -iname ".*" \) | grep -E "[[:digit:]]" | sort | tail -1)
+    # find the last available "dayXX.py" in the YEAR/ folder
+    FILE=$(find $YEAR -name day*.py | sort | tail -1)
+fi
+
+if grep -q "def test_" $FILE; then
+    echo ">>> Running pytest on $FILE"
+    pytest -q -s "$FILE"
+
+    echo ""
+fi
+
+echo ">>> Running $FILE"
+PYTHONPATH=. python "$FILE"

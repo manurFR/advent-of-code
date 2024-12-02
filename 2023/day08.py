@@ -37,7 +37,7 @@ XXX = (XXX, XXX)
 # data = test1
 # data = test2
 # data = test3
-data = readinput('day08')
+data = readinput(2023, 'day08')
 
 PATTERN = re.compile(r"(\w+) = \((\w+), (\w+)\)")
 
@@ -48,8 +48,8 @@ assert all(c in ('L', 'R') for c in instructions)
 class Node:
     name: str
     spec: tuple
-    left: 'Node'
-    right: 'Node'
+    left: 'Node | None'
+    right: 'Node | None'
 
 # create the nodes with the left/right as strings for now
 inventory = {}

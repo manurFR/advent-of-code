@@ -31,7 +31,7 @@ R 1 (#012345)
 
 # data = test
 # data = test2
-data = readinput('day18')
+data = readinput(2023, 'day18')
 
 def display(grid):
     print('\n'.join(''.join(row) for row in grid))

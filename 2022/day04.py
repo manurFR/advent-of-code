@@ -1,6 +1,6 @@
 from utils import splittedinput
 
-data = splittedinput("day04", ',')
+data = splittedinput(2022, "day04", ',')
 
 assignments = []
 for elf1, elf2 in data:

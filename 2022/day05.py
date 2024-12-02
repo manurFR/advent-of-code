@@ -4,7 +4,7 @@ from pprint import pprint
 
 from utils import inputparts
 
-starting, procedure = inputparts("day05")
+starting, procedure = inputparts(2022, "day05")
 # pprint(starting)
 nb_stacks = int(starting[-1][-1])  # last char of last line
 # parse starting stacks to list of list, extracting only crates' names or a space if no crate

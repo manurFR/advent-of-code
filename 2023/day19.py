@@ -25,7 +25,7 @@ hdj{m>838:A,pv}
 """.splitlines()]
 
 # data = test
-data = inputparts('day19')
+data = inputparts(2023, 'day19')
 
 cond_pattern = re.compile(r"(\w)([\<\>])(\d+)")
 

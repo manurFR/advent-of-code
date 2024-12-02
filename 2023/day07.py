@@ -5,7 +5,7 @@ CARDS = '23456789TJQKA'
 CARDS_JOKER = 'J23456789TQKA'
 TYPES = ('HighCard', 'OnePair', 'TwoPairs', 'ThreeOfAKind', 'FullHouse', 'FourOfAKind', 'FiveOfAKind')
 
-data = splittedinput('day07')
+data = splittedinput(2023, 'day07')
 
 # data = [
     # ['32T3K', '765'],

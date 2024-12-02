@@ -17,7 +17,7 @@ test1 = """...#......
 """.splitlines()
 
 # data = test1
-data = readinput('day11')
+data = readinput(2023, 'day11')
 
 # expanding universe ('E' is a unit of expansion)
 space_temp = []

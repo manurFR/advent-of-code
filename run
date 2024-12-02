@@ -2,14 +2,22 @@
 
 set -e
 
-# Usage: ./run [2024[/day01.py]]
+# Usage: ./run 2024/day01.py    => run the given script (first 'pytest'-ing it if appropriate)
+#        ./run 2024             => will find the most recent "dayXX.py" script and run it
+#        ./run                  => will find the most recent year, and the most recent "dayXX.py" script inside it, and run it
 
 if [[ $# -gt 0 ]]; then
-    FILE=$1
+    if [[ "$1" =~ ^[0-9]{4}$ ]]; then
+        # only a year was given, find the most recent "dayXX.py" in this folder
+        YEAR="$1"
+        FILE=$(find $YEAR -name day*.py | sort | tail -1)
+    else
+        FILE=$1
+    fi
 else
-    # find the last available year
+    # find the most recent year folder
     YEAR=$(find . -mindepth 1 -maxdepth 1 -type d  \( ! -iname ".*" \) | grep -E "[[:digit:]]" | sort | tail -1)
-    # find the last available "dayXX.py" in the YEAR/ folder
+    # find the most recent "dayXX.py" in the YEAR/ folder
     FILE=$(find $YEAR -name day*.py | sort | tail -1)
 fi
 

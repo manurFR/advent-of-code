@@ -2,7 +2,7 @@ import re
 import sys
 from utils import readinput
 
-data = readinput("day02")
+data = readinput(2023, "day02")
 
 AVAILABLE_RED, AVAILABLE_GREEN, AVAILABLE_BLUE = 12, 13, 14
 

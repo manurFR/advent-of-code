@@ -2,7 +2,7 @@ from pprint import pprint
 from utils import readinput
 
 
-data = readinput("day03")
+data = readinput(2023, "day03")
 
 # data = [
     # '...*..120....',

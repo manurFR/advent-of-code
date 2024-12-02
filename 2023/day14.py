@@ -14,7 +14,7 @@ O.#..O.#.#
 """.splitlines()
 
 # data = test
-data = readinput('day14')
+data = readinput(2023, 'day14')
 
 data = [[c for c in row] for row in data]
 

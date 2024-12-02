@@ -3,8 +3,8 @@ from pprint import pprint
 from utils import columnarinput, splittedinput
 
 
-# data = columnarinput('day06-example', convert_rows={'Time': int, 'Distance': int})
-data = columnarinput('day06', convert_rows={'Time': int, 'Distance': int})
+# data = columnarinput(2023, 'day06-example', convert_rows={'Time': int, 'Distance': int})
+data = columnarinput(2023, 'day06', convert_rows={'Time': int, 'Distance': int})
 
 # pprint(data)
 
@@ -25,8 +25,8 @@ beats1 = find_record_beats(data)
 print(beats1)
 print(f"Part one: {math.prod(beats1)}")
 
-# data = splittedinput('day06-example')
-data = splittedinput('day06')
+# data = splittedinput(2023, 'day06-example')
+data = splittedinput(2023, 'day06')
 
 race_time = int(''.join(data[0][1:]))
 record_distance = int(''.join(data[1][1:]))

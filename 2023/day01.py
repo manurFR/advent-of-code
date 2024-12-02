@@ -18,7 +18,7 @@ def compute_calibrations(strings_digits):
     # si un seul chiffre, il sera doublé -- c'est la spec...
     return [10 * int(digits[0]) + int(digits[-1]) for digits in strings_digits]
 
-data = readinput("day01")
+data = readinput(2023, "day01")
 print(f"Part one: {sum(compute_calibrations(extract_digits(data)))}")
 
 def replace_text_numbers(line):

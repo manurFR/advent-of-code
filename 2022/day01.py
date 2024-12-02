@@ -1,6 +1,6 @@
 from utils import inputparts
 
-data = inputparts("day01")
+data = inputparts(2022, "day01")
 
 calories = [sum(int(c) for c in part) for part in data]
 

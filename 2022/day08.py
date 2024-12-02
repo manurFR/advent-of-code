@@ -2,7 +2,7 @@ import math
 
 from utils import readinput
 
-data = readinput("day08")
+data = readinput(2022, "day08")
 
 
 def is_visible_from(tree, others):

@@ -3,7 +3,7 @@ import sys
 
 from utils import readinput
 
-data = readinput("day03")
+data = readinput(2022, "day03")
 
 
 def priority(item):

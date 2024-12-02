@@ -18,7 +18,7 @@ test = ["""#.##..##.
 #....#..#""".splitlines()]
 
 # data = test
-data = inputparts('day13')
+data = inputparts(2023, 'day13')
 
 def detect_vertical(ptrn, exclude=None):
     for mid in range(1, len(ptrn)):  # try symmetry at rows 1, 2, ..., len-1

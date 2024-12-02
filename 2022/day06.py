@@ -1,6 +1,6 @@
 from utils import readinput
 
-data = readinput("day06")
+data = readinput(2022, "day06")
 
 signal = data[0]
 

@@ -3,7 +3,7 @@ import re
 from utils import readinput
 
 
-data = readinput("day04")
+data = readinput(2023, "day04")
 
 # data = [
     # 'Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53',

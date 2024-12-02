@@ -20,7 +20,7 @@ test = r""".|...\....
 """.splitlines()
 
 # data = test
-data = readinput('day16')
+data = readinput(2023, 'day16')
 
 original = [[c for c in row] for row in data]
 

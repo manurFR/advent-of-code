@@ -4,8 +4,8 @@ import sys
 import time
 from utils import inputparts, str2intlist
 
-data = inputparts("day05")
-# data = inputparts("day05-example")
+data = inputparts(2023, "day05")
+# data = inputparts(2023, "day05-example")
 
 # almanac = {src: {"dest": dest,
 #                  "mappings": [(startsrc, endsrc, startdest, rangelen), ...]

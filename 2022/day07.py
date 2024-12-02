@@ -5,7 +5,7 @@ from utils import readinput
 F = "file"
 D = "dir"
 
-data = readinput("day07")
+data = readinput(2022, "day07")
 
 
 class Node(object):

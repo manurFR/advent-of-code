@@ -11,7 +11,7 @@ OUTCOMES = {'A': {'X': DRAW, 'Y': WIN,  'Z': LOSS},
             'C': {'X': WIN,  'Y': LOSS, 'Z': DRAW}}
 INVERTED_OUTCOMES = {elf: {outcome: me for me, outcome in original.items()} for elf, original in OUTCOMES.items()}
 
-data = splittedinput("day02")
+data = splittedinput(2022, "day02")
 
 score = 0
 for elf, me in data:

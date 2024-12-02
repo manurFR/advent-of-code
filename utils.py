@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 
 # increments in (y, x) when going to each direction
@@ -26,11 +26,11 @@ def splittedinput(year: int, day: str, sep: Optional[str]=None) -> list[list[str
     return [line.split(sep) for line in readinput(year, day)]
 
 
-def inputparts(day):
+def inputparts(year: int, day: str) -> list[list[str]]:
     """Input is splitted in sections (parts) separated by empty lines."""
     parts = []
     current = []
-    for line in readinput(2024, day):  # TODO year
+    for line in readinput(year, day):
         if not line:
             if current:
                 parts.append(current)
@@ -42,9 +42,9 @@ def inputparts(day):
     return parts
 
 
-def columnarinput(day, convert_rows=None):
+def columnarinput(year: int, day: str, convert_rows: dict[str, type]={}):
     data = []
-    for line in readinput(2024, day):  # TODO year
+    for line in readinput(year, day):
         items = line.split()
         key = items[0].replace(':', '')
         for idx, col in enumerate(items[1:]):

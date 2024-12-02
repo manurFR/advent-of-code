@@ -40,7 +40,7 @@ L7JLJL-JLJLJL--JLJ.L
 
 # data = test1
 # data = test2
-data = readinput('day10')
+data = readinput(2023, 'day10')
 
 display = [[c for c in row] for row in data]  # initialize
 DISP_REPLACE = {NORTH: '^', SOUTH: 'v', EAST: '>', WEST: '<'}

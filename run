@@ -3,7 +3,7 @@
 set -e
 
 # Usage: ./run 2024/day01.py    => run the given script (first 'pytest'-ing it if appropriate)
-#        ./run 2024             => will find the most recent "dayXX.py" script and run it
+#        ./run 2024             => will find the most recent "dayXX.py" script in year 2024 and run it
 #        ./run                  => will find the most recent year, and the most recent "dayXX.py" script inside it, and run it
 
 if [[ $# -gt 0 ]]; then

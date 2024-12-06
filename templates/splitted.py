@@ -2,7 +2,7 @@ from utils import splittedinput
 
 TESTDATA = [line.split() for line in """
 ...
-""".strip().split("\n")]
+""".strip().splitlines()]
 
 
 def part1(data):

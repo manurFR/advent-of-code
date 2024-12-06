@@ -1,9 +1,15 @@
+from functools import wraps
 import os
 import re
 from pathlib import Path
-from typing import Any, Optional
+from time import perf_counter
+from typing import Any, Callable, Optional
 from unittest.mock import patch
 
+
+# ----- Grid manipulation -----
+# Grids are lists of list of (generally) one character
+#  The first dimension is y, the vertical ; the second is x, the horizontal
 
 # increments in (y, x) when going to each direction
 NORTH = (-1, 0)
@@ -15,6 +21,11 @@ NE = (-1, 1)
 SW = (1, -1)
 SE = (1, 1)
 DIRECTIONS = [NORTH, NE, EAST, SE, SOUTH, SW, WEST, NW]  # clockwise
+
+
+def find(grid: list[list[Any]], char: str) -> list[tuple[int, int]]:
+    """Find every occurences of a char in grid. Return their positions [(y, x), ...]."""
+    return [(y, x) for y in range(len(grid)) for x in range(len(grid[y])) if grid[y][x] == char]
 
 
 def fwd(pos, dirn, step=1):
@@ -41,6 +52,13 @@ def ingrid(data, pos):
     y, x = pos
     return 0 <= x < len(data[0]) and 0 <= y < len(data)
 
+
+def display(grid):
+    print('\n'.join(''.join(row) for row in grid))
+    print()
+
+
+# ----- Input file manipulation ----
 
 def convert(listval: list, conv: Optional[type]) -> list:
     """Convert array to 'conv' type, but handle None (no conversion) gracefully."""
@@ -112,8 +130,34 @@ def str2intlist(intstr, sep=None):
     return list(map(int, intstr.split(sep)))
 
 
-# -- Tests --
+# ----- Misc -----
+
+def timeit(f: Callable) -> Callable:
+    """ Compute execution time of a function. """
+    @wraps(f)
+    def wrap(*args, **kw):
+        t0 = perf_counter()
+        result = f(*args, **kw)
+        t1 = perf_counter()
+        print(f'[TIMER] function:{f.__name__}() took {round(t1 - t0, 4)} second(s) to complete')
+        return result
+    return wrap
+
+# ----- Tests -----
 # python -m pytest utils.py
+
+def test_find():
+    grid = [[c for c in line] for line in """
+.....
+.X...
+..*.X
+X....
+....X
+""".strip().splitlines()]
+    assert find(grid, "X") == [(1, 1), (2, 4), (3, 0), (4, 4)]
+    assert find(grid, "*") == [(2, 2)]
+    assert find(grid, "$") == []
+
 
 def test_fwd():
     assert fwd((1, 1), NORTH) == (0, 1)

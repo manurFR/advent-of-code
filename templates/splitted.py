@@ -1,14 +1,16 @@
-from utils import splittedinput
+from utils import splittedinput, timeit
 
 TESTDATA = [line.split() for line in """
 ...
 """.strip().splitlines()]
 
 
+@timeit
 def part1(data):
     return 0
 
 
+@timeit
 def part2(data):
     return 0
 

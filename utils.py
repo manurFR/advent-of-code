@@ -139,7 +139,8 @@ def timeit(f: Callable) -> Callable:
         t0 = perf_counter()
         result = f(*args, **kw)
         t1 = perf_counter()
-        print(f'[TIMER] function:{f.__name__}() took {round(t1 - t0, 4)} second(s) to complete')
+        if os.environ.get("PYTEST_VERSION") is None:
+            print(f'[TIMER] function:{f.__name__}() took {round(t1 - t0, 4)} second(s) to complete')
         return result
     return wrap
 

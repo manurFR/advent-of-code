@@ -38,6 +38,7 @@ def find_valid_calibrations(data, operators):
     return total_calibration
 
 
+@timeit
 def part1(data):
     operators = (operator.add, operator.mul)
     return find_valid_calibrations(data, operators)

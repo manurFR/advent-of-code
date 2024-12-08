@@ -1,13 +1,15 @@
-from utils import readinput
+from utils import readinput, timeit
 
 TESTDATA = """some
 data"""
 
 
+@timeit
 def part1(data):
     return 0
 
 
+@timeit
 def part2(data):
     return 0
 

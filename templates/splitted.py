@@ -21,6 +21,7 @@ def test_part1():
 def test_part2():
     assert part2(TESTDATA) == 0
 
+
 if __name__ == "__main__":
     data = splittedinput(0000, "XX")
     print(f"Part 1: {part1(data)}")

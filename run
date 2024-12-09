@@ -23,7 +23,7 @@ fi
 
 if grep -q "def test_" $FILE; then
     echo ">>> Running pytest on $FILE"
-    pytest -q -s "$FILE"
+    pytest -q --suppress-no-test-exit-code -s "$FILE"
 
     echo ""
 fi

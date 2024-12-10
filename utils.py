@@ -23,9 +23,9 @@ SE = (1, 1)
 DIRECTIONS = [NORTH, NE, EAST, SE, SOUTH, SW, WEST, NW]  # clockwise
 
 
-def find(grid: list[list[Any]], char: str) -> list[tuple[int, int]]:
-    """Find every occurences of a char in grid. Return their positions [(y, x), ...]."""
-    return [(y, x) for y in range(len(grid)) for x in range(len(grid[y])) if grid[y][x] == char]
+def find(grid: list[list[Any]], val: Any) -> list[tuple[int, int]]:
+    """Find every occurences of val in grid. Return their positions [(y, x), ...]."""
+    return [(y, x) for y in range(len(grid)) for x in range(len(grid[y])) if grid[y][x] == val]
 
 
 def fwd(pos, dirn, step=1):
@@ -54,7 +54,7 @@ def ingrid(data, pos):
 
 
 def display(grid):
-    print('\n'.join(''.join(row) for row in grid))
+    print('\n'.join(''.join(map(str, row)) for row in grid))
     print()
 
 

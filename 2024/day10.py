@@ -1,7 +1,5 @@
-from collections import deque
-from collections.abc import Callable
 from pprint import pprint
-from utils import EAST, NORTH, SOUTH, WEST, display, find, fwd, ingrid, splittedinput, timeit
+from utils import EAST, NORTH, SOUTH, WEST, breadth_first_search, display, find, fwd, ingrid, splittedinput, timeit
 
 TESTDATA = [[int(c) for c in line] for line in """
 89010123
@@ -13,38 +11,6 @@ TESTDATA = [[int(c) for c in line] for line in """
 01329801
 10456732
 """.strip().splitlines()]
-
-
-def breadth_first_search(grid: list[list], startpos: tuple, 
-                         adjacencyrule: Callable[[list[list], tuple], list[tuple]], 
-                         endrule: Callable[[list[list], tuple], bool]) -> list[list]:
-    """Explore the grid from a starting position and return all the valid paths.
-        adjacencyrule must be a function f(grid, currpos) -> list[tuple[int, int]]
-          that return, for a position currpos, return the valid next positions on the path
-        endrule must be a function f(grid, currpos) -> bool that return True if the
-          current position qualifies as the end point for a valid path
-      IMPORTANT: this function returns ALL the valid paths that lead from the starting
-       position to an end point. If you need only the unique end points, apply a set() on them.
-    """
-    winpaths = []
-    visited = set()
-    queue = deque()
-
-    queue.append((startpos, [startpos]))  # current_vertex, path
-
-    while queue:
-        currpos, path = queue.popleft()
-        visited.add(currpos)
-
-        if endrule(grid, currpos):
-            winpaths.append(path)
-
-        for nextpos in adjacencyrule(grid, currpos):
-            # not: no "if nextpos not in visited" in this implementation, we return ALL valid paths
-            visited.add(nextpos)
-            queue.append((nextpos, path + [nextpos]))
-
-    return winpaths
 
 
 def endrule(grid, currpos):

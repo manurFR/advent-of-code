@@ -1,3 +1,4 @@
+from collections import deque
 from functools import wraps
 import os
 import re
@@ -57,6 +58,42 @@ def display(grid):
     print('\n'.join(''.join(map(str, row)) for row in grid))
     print()
 
+
+def breadth_first_search(grid: list[list], startpos: tuple, 
+                         adjacencyrule: Callable[[list[list], tuple], list[tuple]], 
+                         endrule: Callable[[list[list], tuple], bool],
+                         include_head: bool = True) -> list[list]:
+    """Explore the grid from a starting position and return all the valid paths.
+        - adjacencyrule must be a function f(grid, currpos) -> list[tuple[int, int]]
+          that return, for a position currpos, return the valid next positions on the path
+        - endrule must be a function f(grid, currpos) -> bool that return True if the
+          current position marks the end of a path
+        - include_head is a boolean (default True) that indicated if the position marking
+          the end of a path (ie. when endrule() returns True) should be included in the path;
+           set to True if endrule() can detect the end point of a path (included),
+           set to False if endrule() can only detect invalid positions, when we are already out of a valid path
+      IMPORTANT: this function returns ALL the valid paths that lead from the starting
+       position to an end point. If you need only the unique end points, apply a set() on them.
+    """
+    winpaths = []
+    queue = deque()
+
+    queue.append((startpos, [startpos]))  # current_vertex, path
+
+    while queue:
+        currpos, path = queue.popleft()
+
+        if endrule(grid, currpos):
+            if not include_head:
+                path.pop()
+            winpaths.append(path)
+            continue
+
+        for nextpos in adjacencyrule(grid, currpos):
+            # not: no "if nextpos not in visited" in this implementation, we return ALL valid paths
+            queue.append((nextpos, path + [nextpos]))
+
+    return winpaths
 
 # ----- Input file manipulation ----
 

@@ -1,6 +1,6 @@
 from utils import splittedinput, timeit
 
-TESTDATA = [line.split() for line in """
+TESTDATA = [[c for c in line] for line in """
 ...
 """.strip().splitlines()]
 

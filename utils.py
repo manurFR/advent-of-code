@@ -95,6 +95,11 @@ def breadth_first_search(grid: list[list], startpos: tuple,
 
     return winpaths
 
+
+def printdot():
+    print(".", end="", flush=True)
+
+
 # ----- Input file manipulation ----
 
 def convert(listval: list, conv: Optional[type]) -> list:

@@ -65,7 +65,7 @@ def breadth_first_search(grid: list[list], startpos: tuple,
                          include_head: bool = True) -> list[list]:
     """Explore the grid from a starting position and return all the valid paths.
         - adjacencyrule must be a function f(grid, currpos) -> list[tuple[int, int]]
-          that return, for a position currpos, return the valid next positions on the path
+          that return, for a position currpos, the next valid positions on the path
         - endrule must be a function f(grid, currpos) -> bool that return True if the
           current position marks the end of a path
         - include_head is a boolean (default True) that indicated if the position marking
@@ -91,7 +91,8 @@ def breadth_first_search(grid: list[list], startpos: tuple,
 
         for nextpos in adjacencyrule(grid, currpos):
             # not: no "if nextpos not in visited" in this implementation, we return ALL valid paths
-            queue.append((nextpos, path + [nextpos]))
+            if nextpos not in path:
+                queue.append((nextpos, path + [nextpos]))
 
     return winpaths
 

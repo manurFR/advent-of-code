@@ -1,6 +1,7 @@
 from collections import deque
 from functools import wraps
 import os
+from queue import PriorityQueue
 import re
 from pathlib import Path
 from time import perf_counter
@@ -64,6 +65,8 @@ def breadth_first_search(grid: list[list], startpos: tuple,
                          endrule: Callable[[list[list], tuple], bool],
                          include_head: bool = True) -> list[list]:
     """Explore the grid from a starting position and return all the valid paths.
+        Use BFS when you need to find ALL the valid paths.
+
         - adjacencyrule must be a function f(grid, currpos) -> list[tuple[int, int]]
           that return, for a position currpos, the next valid positions on the path
         - endrule must be a function f(grid, currpos) -> bool that return True if the
@@ -95,6 +98,58 @@ def breadth_first_search(grid: list[list], startpos: tuple,
                 queue.append((nextpos, path + [nextpos]))
 
     return winpaths
+
+
+def a_star_search(grid: list[list], startpos: tuple, goalpos: tuple,
+                  adjacencyrule: Callable[[list[list], tuple], list[tuple]],
+                  heuristic_distance: Callable[[tuple, tuple], int]) -> list:
+    """Explore the grid from a starting position and the shortest path to goalpost.
+        Use A* when you need to find only the shortest path. It's faster than BFS in most cases.
+
+        - adjacencyrule must be a function f(grid, currpos) -> list[tuple[int, int]]
+          that return, for a position currpos, the next valid positions on the path
+        - heuristic_distance must be a function f(pos1, pos2) -> int that returns
+          an estimation of the maximum distance between pos1 and pos2.
+            => for 4-connected grids (N,E,S,W) use manhattan distance
+            => for 8-connected grids (adding NE,SE,SW,NW) use octile distance
+
+        Note: if this cannot find a path (because the way to goalpost is blocked), we return []
+
+        see http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+        and https://github.com/riscy/a_star_on_grids
+    """
+    open_list = PriorityQueue()
+    open_list.put((0, startpos))
+    closed_list = []
+
+    g_scores = {startpos: 0}  # distance from startpos to key
+    parent = {startpos: None}  # previous position on the path
+
+    while not open_list.empty():
+        _, currpos = open_list.get()
+        closed_list.append(currpos)
+
+        if currpos == goalpos:
+            path = []
+            while currpos:
+                path.append(currpos)
+                currpos = parent[currpos]
+            return path[::-1]  # reverse to start with startpos
+
+        for nextpos in adjacencyrule(grid, currpos):
+            g = g_scores[currpos] + 1
+            if nextpos not in g_scores or g < g_scores[nextpos]:
+                g_scores[nextpos] = g
+                h = heuristic_distance(nextpos, goalpos)
+                f = g + h
+                open_list.put((f, nextpos))
+                parent[nextpos] = currpos
+    
+    return []
+
+
+def manhattan(pos1: tuple, pos2: tuple) -> int:
+    return abs(pos2[0] - pos1[0]) + abs(pos2[1] - pos1[1])
 
 
 def printdot():

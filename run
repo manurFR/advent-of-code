@@ -21,11 +21,30 @@ else
     FILE=$(find $YEAR -name day*.py | sort | tail -1)
 fi
 
-if grep -q "def test_" $FILE; then
-    echo ">>> Running pytest on $FILE"
-    pytest -q --suppress-no-test-exit-code -s "$FILE"
+INOTIFYWAIT_EXISTS=$(command -v inotifywait || true)  # true makes the subshell return without stopping the script, but the variable gets assigned an empty string
 
-    echo ""
+if grep -q "def test_" $FILE; then
+    if [ -z "$INOTIFYWAIT_EXISTS" ]; then
+        echo "** inotifywait not found ; if tests fail the script will relaunch every 5 seconds instead of on file changes."
+        echo "   Please install inotify-tools to enable auto-reloading tests on file changes."
+        echo "   On Debian/Ubuntu: sudo apt-get install inotify-tools"
+        echo "***************************************************************************************************************"
+    fi
+
+    echo ">>> Running pytest on $FILE"
+    FAILED=1
+    while [ $FAILED -ne 0 ]; do
+        pytest -q --suppress-no-test-exit-code -s "$FILE" && FAILED=0
+        if [ $FAILED -ne 0 ]; then
+            if [ -z "$INOTIFYWAIT_EXISTS" ]; then
+                sleep 5
+            else
+                inotifywait -e modify -qq "$FILE"  # block until the file is modified
+            fi
+        fi
+    done
+
+    echo
 fi
 
 echo ">>> Running $FILE"

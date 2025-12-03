@@ -6,6 +6,11 @@ set -e
 #        ./run 2024             => will find the most recent "dayXX.py" script in year 2024 and run it
 #        ./run                  => will find the most recent year, and the most recent "dayXX.py" script inside it, and run it
 
+command -v uv >/dev/null 2>&1 || { 
+    echo >&2 "uv is required but it's not installed. Please install uv (https://docs.astral.sh/uv/getting-started/installation/) and try again."; 
+    exit 1;
+}
+
 if [[ $# -gt 0 ]]; then
     if [[ "$1" =~ ^[0-9]{4}$ ]]; then
         # only a year was given, find the most recent "dayXX.py" in this folder
@@ -34,7 +39,7 @@ if grep -q "def test_" $FILE; then
     echo ">>> Running pytest on $FILE"
     FAILED=1
     while [ $FAILED -ne 0 ]; do
-        pytest -q --suppress-no-test-exit-code -s "$FILE" && FAILED=0
+        uv run pytest -q --suppress-no-test-exit-code -s "$FILE" && FAILED=0
         if [ $FAILED -ne 0 ]; then
             if [ -z "$INOTIFYWAIT_EXISTS" ]; then
                 sleep 5
@@ -48,4 +53,4 @@ if grep -q "def test_" $FILE; then
 fi
 
 echo ">>> Running $FILE"
-PYTHONPATH=. python "$FILE"
+PYTHONPATH=. uv run "$FILE"

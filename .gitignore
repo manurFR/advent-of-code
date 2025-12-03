@@ -1,5 +1,4 @@
-/.idea/
-/venv/
-
+.venv/
 *.code-workspace
-__pycache__
+__pycache__/
+

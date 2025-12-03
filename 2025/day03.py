@@ -26,7 +26,7 @@ def part2(data):
         joltage = []
         currpos = 0
         for i in range(size, 0, -1):  # 12 to 1
-            segment = bank[currpos:-i+1] if i != 1 else bank[currpos:]
+            segment = bank[currpos:-i + 1] if i != 1 else bank[currpos:]
             digit = max(segment)
             joltage.append(digit)
             # print(f"{i=}, {currpos=}, {segment=}, joltage={"".join(joltage)}")

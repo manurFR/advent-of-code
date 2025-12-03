@@ -38,10 +38,10 @@ def part2(data):
     for line in data:
         direction = line[0]
         amount = int(line[1:])
-        
+
         # each full cycle of 100 passes the zero tick once
         count_passed_zero += amount // 100
-        
+
         remainder = amount % 100
         if remainder > 0:
             if direction == "R":
@@ -57,7 +57,9 @@ def part2(data):
             # print(f"{line} {dial} {count_passed_zero}")
     return count_passed_zero
 
-# 
+
+# Tests
+
 
 def test_part1():
     assert part1(TESTDATA) == 3

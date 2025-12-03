@@ -1,0 +1,12 @@
+[project]
+name="AdventOfCode"
+version="1"
+requires-python = ">= 3.12"
+dependencies = [
+    "ipython",
+    "notebook~=7.3.1",
+    "pytest~=8.3.4",
+    "pytest-custom-exit-code==0.3.0",
+    "shapely~=2.1.2",
+    "flake8~=7.3.0",
+]

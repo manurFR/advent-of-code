@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import csv
 
-with open('myfile.csv') as csvfile:
+with open('2017/myfile.csv') as csvfile:
     reader = csv.reader(csvfile, skipinitialspace=True)  # remove the spaces after the commas
     result = {}  # or collections.OrderedDict() if the output order is important
     for row in reader:

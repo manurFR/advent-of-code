@@ -9,6 +9,78 @@ from typing import Any, Callable, Optional
 from unittest.mock import patch
 
 
+# ----- Input file manipulation ----
+
+def convert(listval: list, conv: Optional[type]) -> list:
+    """Convert array to 'conv' type, but handle None (no conversion) gracefully."""
+    if conv is None:
+        return listval
+    else:
+        return list(map(conv, listval))
+
+
+def inputdir(year: str) -> Path:
+    return Path(os.path.dirname(os.path.abspath(__file__))) / year / "inputs"
+
+
+def readinput(year: int, day: str, conv: Optional[type]=None) -> list[str]:
+    """Returns a list, with just each line as an item"""
+    with (inputdir(str(year)) / day).open("r") as f:
+        data = convert([line.strip() for line in f.readlines()], conv)
+    print(f"...Parsed {len(data)} lines from input file {str(year)}/{day}")
+    return data
+
+
+def splittedinput(year: int, day: str, sep: Optional[str|int]=None, conv: Optional[type]=None) -> list[list[str|Any]]:
+    """Each item is a line but as a list of the elements splitted around sep
+       - if sep=None, splitted around clusters of whitespaces
+       - if sep is an integer N, the items will be strings of N consecutive characters
+         example: with sep=1, the line "ABCD" will be splitted to ['A', 'B', 'C', 'D'] 
+                  with sep=2,  "   "      "    "    "     "     " ['AB', 'CD']  etc.
+    """
+    if isinstance(sep, int):
+        return [convert(re.findall(rf".{{1,{sep}}}", line), conv) for line in readinput(year, day)]
+    else:
+        return [convert(line.split(sep), conv) for line in readinput(year, day)]
+
+
+def inputparts(year: int, day: str) -> list[list[str]]:
+    """Input is splitted in sections (parts) separated by empty lines."""
+    parts = []
+    current = []
+    for line in readinput(year, day):
+        if not line:
+            if current:
+                parts.append(current)
+                current = []
+        else:
+            current.append(line)
+    if current:
+        parts.append(current)
+    return parts
+
+
+def columnarinput(year: int, day: str, convert_rows: dict[str, type]={}):
+    data = []
+    for line in readinput(year, day):
+        items = line.split()
+        key = items[0].replace(':', '')
+        for idx, col in enumerate(items[1:]):
+            if convert_rows and key in convert_rows:
+                col = convert_rows[key](col)
+            if len(data) <= idx:
+                data.append({key: col})
+            else:
+                data[idx].update({key: col})
+    return data
+
+
+def str2intlist(intstr, sep=None):
+    """Convert a string of numbers separated by sep (defaut: whitespaces) 
+    to a list of integers"""
+    return list(map(int, intstr.split(sep)))
+
+
 # ----- Grid manipulation -----
 # Grids are lists of list of (generally) one character
 #  The first dimension is y, the vertical ; the second is x, the horizontal
@@ -154,88 +226,63 @@ def manhattan(pos1: tuple, pos2: tuple) -> int:
 
 def printdot():
     print(".", end="", flush=True)
+    
 
+# ----- Linked List -----
 
-# ----- Input file manipulation ----
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next: Node = None
+        self.prev: Node = None
+        
 
-def convert(listval: list, conv: Optional[type]) -> list:
-    """Convert array to 'conv' type, but handle None (no conversion) gracefully."""
-    if conv is None:
-        return listval
-    else:
-        return list(map(conv, listval))
-
-
-def inputdir(year: str) -> Path:
-    return Path(os.path.dirname(os.path.abspath(__file__))) / year / "inputs"
-
-
-def readinput(year: int, day: str, conv: Optional[type]=None) -> list[str]:
-    """Returns a list, with just each line as an item"""
-    with (inputdir(str(year)) / day).open("r") as f:
-        data = convert([line.strip() for line in f.readlines()], conv)
-    print(f"...Parsed {len(data)} lines from input file {str(year)}/{day}")
-    return data
-
-
-def splittedinput(year: int, day: str, sep: Optional[str|int]=None, conv: Optional[type]=None) -> list[list[str|Any]]:
-    """Each item is a line but as a list of the elements splitted around sep
-       - if sep=None, splitted around clusters of whitespaces
-       - if sep is an integer N, the items will be strings of N consecutive characters
-         example: with sep=1, the line "ABCD" will be splitted to ['A', 'B', 'C', 'D'] 
-                  with sep=2,  "   "      "    "    "     "     " ['AB', 'CD']  etc.
-    """
-    if isinstance(sep, int):
-        return [convert(re.findall(rf".{{1,{sep}}}", line), conv) for line in readinput(year, day)]
-    else:
-        return [convert(line.split(sep), conv) for line in readinput(year, day)]
-
-
-def inputparts(year: int, day: str) -> list[list[str]]:
-    """Input is splitted in sections (parts) separated by empty lines."""
-    parts = []
-    current = []
-    for line in readinput(year, day):
-        if not line:
-            if current:
-                parts.append(current)
-                current = []
+class LinkedList:
+    def __init__(self, values=None):
+        self.head: Node = None
+        self.tail: Node = None
+        if values is not None:
+            for v in values:
+                self.append(v)
+    
+    def append(self, value):
+        newnode = Node(value)
+        if not self.head:
+            self.head = newnode
+            self.tail = newnode
         else:
-            current.append(line)
-    if current:
-        parts.append(current)
-    return parts
-
-
-def columnarinput(year: int, day: str, convert_rows: dict[str, type]={}):
-    data = []
-    for line in readinput(year, day):
-        items = line.split()
-        key = items[0].replace(':', '')
-        for idx, col in enumerate(items[1:]):
-            if convert_rows and key in convert_rows:
-                col = convert_rows[key](col)
-            if len(data) <= idx:
-                data.append({key: col})
-            else:
-                data[idx].update({key: col})
-    return data
-
-
-def str2intlist(intstr, sep=None):
-    """Convert a string of numbers separated by sep (defaut: whitespaces) 
-    to a list of integers"""
-    return list(map(int, intstr.split(sep)))
-
+            self.tail.next = newnode
+            newnode.prev = self.tail
+            self.tail = newnode
+            
+    def remove(self, node_to_remove: Node):
+        if node_to_remove.prev:
+            node_to_remove.prev.next = node_to_remove.next
+        else:
+            # removing head
+            self.head = node_to_remove.next
+        if node_to_remove.next:
+            node_to_remove.next.prev = node_to_remove.prev
+        else:
+            # removing tail
+            self.tail = node_to_remove.prev
+            
+    def to_list(self) -> list:
+        result = []
+        pointer = self.head
+        while pointer is not None:
+            result.append(pointer.value)
+            pointer = pointer.next
+        return result
 
 # ----- Misc -----
 
 def timeit(f: Callable) -> Callable:
     """ Compute execution time of a function. """
     @wraps(f)
-    def wrap(*args, **kw):
+    def wrap(*args, **kwargs):
         t0 = perf_counter()
-        result = f(*args, **kw)
+        result = f(*args, **kwargs)
         t1 = perf_counter()
         if os.environ.get("PYTEST_VERSION") is None:
             print(f'[TIMER] function:{f.__name__}() took {round(t1 - t0, 4)} second(s) to complete')

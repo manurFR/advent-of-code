@@ -1,4 +1,4 @@
-from utils import readinput, splittedinput, timeit
+from utils import readinput, timeit
 
 TESTDATA = """
 123 328  51 64 

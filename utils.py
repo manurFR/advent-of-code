@@ -143,7 +143,7 @@ def breadth_first_search(grid: list[list], startpos: tuple,
           that return, for a position currpos, the next valid positions on the path
         - endrule must be a function f(grid, currpos) -> bool that return True if the
           current position marks the end of a path
-        - include_head is a boolean (default True) that indicated if the position marking
+        - include_head is a boolean (default True) that indicates if the position marking
           the end of a path (ie. when endrule() returns True) should be included in the path;
            set to True if endrule() can detect the end point of a path (included),
            set to False if endrule() can only detect invalid positions, when we are already out of a valid path

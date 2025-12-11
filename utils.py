@@ -175,7 +175,7 @@ def breadth_first_search(grid: list[list], startpos: tuple,
 def a_star_search(grid: list[list], startpos: tuple, goalpos: tuple,
                   adjacencyrule: Callable[[list[list], tuple], list[tuple]],
                   heuristic_distance: Callable[[tuple, tuple], int]) -> list:
-    """Explore the grid from a starting position and the shortest path to goalpost.
+    """Explore the grid from a starting position and return the shortest path to goalpos.
         Use A* when you need to find only the shortest path. It's faster than BFS in most cases.
 
         - adjacencyrule must be a function f(grid, currpos) -> list[tuple[int, int]]
@@ -185,7 +185,7 @@ def a_star_search(grid: list[list], startpos: tuple, goalpos: tuple,
             => for 4-connected grids (N,E,S,W) use manhattan distance
             => for 8-connected grids (adding NE,SE,SW,NW) use octile distance
 
-        Note: if this cannot find a path (because the way to goalpost is blocked), we return []
+        Note: if this cannot find a path (because the way to goalpos is blocked), we return []
 
         see http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
         and https://github.com/riscy/a_star_on_grids

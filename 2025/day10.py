@@ -40,25 +40,6 @@ def parse_manual(data) -> list[Machine]:
     return machines
 
 
-def fmtlights(lights: tuple[bool], change: str = None) -> str:
-    """Format tuples like (True, False, True) into strings like '101', optionally highlighting changes in RED."""
-    if change is None:
-        return ''.join('1' if light else '0' for light in lights)
-    else:
-        bits = []
-        for light, ch in zip(lights, change):
-            bit = '1' if light else '0'
-            if ch == '!':
-                bit = red(bit)
-            bits.append(bit)
-        return ''.join(bits)
-    
-
-def button2str(button: list[int], length: int) -> str:
-    """Format a button like [0, 2, 3] into a string like '!.!!.' (for length 5)."""
-    return ''.join('!' if idx in button else '.' for idx in range(length))
-
-
 def solve_diagram(target, buttons) -> list[list[list[int]]]:
     """Return all the sequences (first list) of successive button presses (second list) 
        that lead to the target diagram.
@@ -98,7 +79,7 @@ def part1(data):
                
     return tot_presses
 
-@cache  # needs tuples instead of lists to be hashable
+@cache  # caching is crucial but then it needs tuples input instead of lists so that they are hashable
 def solve_joltages(joltages: tuple[int, ...], buttons: tuple[tuple[int, ...], ...]) -> int:
     # Base case: all joltages are zero
     if all(j == 0 for j in joltages):
@@ -188,17 +169,6 @@ def test_parse_manual():
     assert machines[0].diagram == '.##.'
     assert machines[0].buttons == [[3], [1, 3], [2], [2, 3], [0, 2], [0, 1]]
     assert machines[0].joltages == [3, 5, 4, 7]
-    
-
-def test_button2str():
-    assert button2str([0, 2, 3], 5) == '!.!!.'
-    assert button2str([], 4) == '....'
-    assert button2str([1, 3], 4) == '.!.!'
-    
-
-def test_fmtlights():
-    assert fmtlights((True, False, True)) == '101'
-    assert fmtlights((False, False, True), change='!.!') == f"{red('0')}0{red('1')}"
     
 
 def test_solve_diagram():

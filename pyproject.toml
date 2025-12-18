@@ -9,4 +9,6 @@ dependencies = [
     "pytest-custom-exit-code==0.3.0",
     "shapely~=2.1.2",
     "flake8~=7.3.0",
+    "networkx==3.6.1",
+    "pydot~=4.0.0",
 ]
